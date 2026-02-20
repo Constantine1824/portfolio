@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Ayomide Taiwo{% endblock %}
+
+{% block content %}
+<main id="main-content" style="padding-top: 80px;">
+    <article class="blog-post-detail">
+        <div class="container">
+            <div class="blog-header">
+                <a href="{% url 'blog_list' %}" class="back-link"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+                <h1 class="post-title">{{ post.title }}</h1>
+                <div class="post-meta">
+                    <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.created_at|date:"F j, Y"
+                        }}</span>
+                </div>
+            </div>
+
+            {% if post.image %}
+            <div class="post-featured-image">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            </div>
+            {% endif %}
+
+            <div class="post-content">
+                {{ post.content|safe }}
+            </div>
+
+            <style>
+                .post-content img {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: var(--border-radius-md);
+                    margin: var(--spacing-md) 0;
+                }
+
+                .post-content iframe {
+                    width: 100%;
+                    aspect-ratio: 16 / 9;
+                    border-radius: var(--border-radius-md);
+                    margin: var(--spacing-md) 0;
+                }
+
+                .post-content h1,
+                .post-content h2,
+                .post-content h3 {
+                    margin-top: var(--spacing-lg);
+                    margin-bottom: var(--spacing-sm);
+                }
+
+                .post-content ul,
+                .post-content ol {
+                    margin-left: var(--spacing-lg);
+                    margin-bottom: var(--spacing-md);
+                }
+
+                .post-content blockquote {
+                    border-left: 4px solid var(--primary);
+                    padding-left: var(--spacing-md);
+                    font-style: italic;
+                    color: var(--text-secondary);
+                    margin: var(--spacing-md) 0;
+                }
+            </style>
+
+            <div class="post-footer">
+                <div class="share-buttons">
+                    <span>Share:</span>
+                    <a href="https://twitter.com/intent/tweet?text={{ post.title }}&url={{ request.build_absolute_uri }}"
+                        target="_blank" rel="noopener" class="share-btn twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
+                        target="_blank" rel="noopener" class="share-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </article>
+</main>
+{% endblock %}

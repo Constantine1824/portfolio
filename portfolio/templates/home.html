@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_js %}
+<script src="{% static 'js/particle-network.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <div class="hero-content">
+            <h1>Ayomide Taiwo</h1>
+            <p id="intro-content" aria-live="polite"></p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Contact Me</a>
+                {% if resume %}
+                <a href="#" id="resume-btn" class="btn btn-secondary" data-resume-url="{{ resume.resume_link }}">View
+                    Resume</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main id="main-content">
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about">
+                <div class="about-content">
+                    <p class="about-text">{{about.about}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-container">
+                <div class="skills-grid">
+                    {% for skill in skills %}
+                    <div class="skill-card" tabindex="0">
+                        <div class="skill-icon">
+                            <img src="{{skill.skill_img.url}}" alt="{{skill.name}} icon" loading="lazy">
+                        </div>
+                        <h3 class="skill-name">{{skill.name}}</h3>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section" id="projects">
+        <div class="container">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-grid">
+                {% for project in projects %}
+                <div class="project-card" tabindex="0">
+                    <img src="{{project.base_image.url}}" class="project-image"
+                        alt="{{project.name}} project screenshot" loading="lazy">
+                    <div class="project-content">
+                        <h3 class="project-title">{{project.name}}</h3>
+                        <p class="project-description">{{project.description}}</p>
+                        <div class="project-links">
+                            {%if project.kaggle_link%}
+                            <a href="{{project.kaggle_link}}" class="project-link primary" target="_blank"
+                                rel="noopener">Kaggle</a>
+                            {%else%}
+                            <a href="{{project.live_link}}" class="project-link primary" target="_blank"
+                                rel="noopener">Live Demo</a>
+                            {%endif%}
+                            <a href="{{project.github_link}}" class="project-link secondary" target="_blank"
+                                rel="noopener">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-form">
+                <form id="form" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-input" id="name" name="name" required
+                            aria-describedby="nameHelp">
+                        <div class="invalid-feedback" id="nameHelp">Please enter your name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-input" id="subject" name="subject" required>
+                        <div class="invalid-feedback">Please enter a subject</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email or Phone Number</label>
+                        <input type="text" class="form-input" id="email" name="email" required>
+                        <div class="invalid-feedback">Please enter your email or phone number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-input form-textarea" id="message" name="message"
+                            placeholder="Your message here" required></textarea>
+                        <div class="invalid-feedback">Please enter your message</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="mail-btn">Send Message</button>
+                </form>
+
+                <div id="success-message" class="success-message hidden" role="alert" aria-live="assertive">
+                    <div class="success-icon"></div>
+                    <h3>Message Sent Successfully!</h3>
+                    <p>Thank you for reaching out. I'll get back to you soon.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
